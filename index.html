@@ -1,427 +1,325 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escape Room: Operación Rescata el Curso</title>
-  <style>
-    :root{
-      --bg:#f5f7fb;
-      --panel:#ffffff;
-      --text:#1f2937;
-      --muted:#667085;
-      --border:#d7deea;
-      --accent:#1f4f99;
-      --accent2:#0f766e;
-      --soft:#eef4ff;
-      --success:#eaf8ef;
-      --warning:#fff7e6;
-      --danger:#fdecec;
-      --purple:#6d4cc3;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.5;
-    }
-    .wrap{
-      max-width:980px;
-      margin:0 auto;
-      padding:24px;
-    }
-    .hero{
-      background:linear-gradient(135deg,#eef4ff,#f7fbff);
-      border:1px solid var(--border);
-      border-radius:22px;
-      padding:24px;
-      margin-bottom:18px;
-    }
-    .badge{
-      display:inline-block;
-      background:var(--accent);
-      color:#fff;
-      border-radius:999px;
-      padding:5px 10px;
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:8px;
-    }
-    h1,h2,h3{margin:0 0 10px}
-    h1{font-size:30px;color:#173b72}
-    h2{font-size:22px}
-    h3{font-size:19px}
-    .sub{color:var(--muted);margin:0}
-    .progress-row{
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:16px;
-      align-items:end;
-      margin-top:18px;
-    }
-    .progress{
-      height:12px;
-      background:#e7ecf4;
-      border-radius:999px;
-      overflow:hidden;
-    }
-    .progress > div{
-      height:100%;
-      width:0;
-      background:var(--accent2);
-      transition:.3s;
-    }
-    .progress-count{
-      font-weight:bold;
-      color:var(--accent2);
-    }
-    .codes{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin:18px 0;
-    }
-    .code{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      text-align:center;
-    }
-    .code small{color:var(--muted)}
-    .code strong{display:block;margin-top:4px}
-    .panel{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:20px;
-      margin-bottom:18px;
-    }
-    .locked{opacity:.48}
-    .challenge-head{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      margin-bottom:8px;
-    }
-    .num{
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--accent);
-      color:#fff;
-      font-weight:bold;
-      flex:0 0 auto;
-    }
-    .choices{display:grid;gap:10px;margin:14px 0}
-    .choice{
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:11px 12px;
-      background:#fff;
-    }
-    .choice label{cursor:pointer}
-    .buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    button{
-      border:none;
-      border-radius:12px;
-      padding:10px 14px;
-      font-size:15px;
-      cursor:pointer;
-    }
-    button.primary{background:var(--accent);color:#fff}
-    button.secondary{background:#fff;border:1px solid var(--border);color:var(--text)}
-    button:disabled{opacity:.45;cursor:not-allowed}
-    .feedback,.hint{
-      margin-top:12px;
-      border-radius:12px;
-      padding:12px;
-      display:none;
-    }
-    .feedback{background:var(--soft);border:1px solid #cbd9f3}
-    .hint{background:var(--warning);border:1px solid #f0d99a}
-    .select-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:12px;
-    }
-    label.block{display:block;font-weight:bold;font-size:14px}
-    select,textarea{
-      width:100%;
-      margin-top:6px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px;
-      font:inherit;
-      background:#fff;
-    }
-    .final-lock{
-      display:none;
-      background:#fafbff;
-      border:2px dashed #9cb2d8;
-    }
-    .sentence{
-      background:var(--soft);
-      border-radius:12px;
-      padding:14px;
-      margin:12px 0;
-    }
-    .success{
-      display:none;
-      background:var(--success);
-      border:1px solid #b8dfc6;
-      text-align:center;
-    }
-    .success .icon{font-size:38px}
-    .reflection{text-align:left;margin-top:16px}
-    .footer-note{
-      color:var(--muted);
-      font-size:13px;
-      text-align:center;
-      padding:8px 0 24px;
-    }
-    @media (max-width:700px){
-      .wrap{padding:14px}
-      .codes,.select-grid{grid-template-columns:1fr}
-      h1{font-size:25px}
-      .progress-row{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape Room: Operación Rescata el Curso</title>
+<style>
+:root{
+  --bg:#f4f7fb; --panel:#fff; --text:#1f2937; --muted:#667085;
+  --border:#d7deea; --blue:#214f93; --teal:#0f766e;
+  --soft:#eef4ff; --success:#eaf8ef; --warning:#fff6dd;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0; width:100%; height:100%; overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif; background:var(--bg); color:var(--text);
+}
+body{display:flex}
+.app{
+  width:100%; height:100vh; padding:12px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.header{
+  flex:0 0 auto; background:#fff; border:1px solid var(--border);
+  border-radius:16px; padding:10px 14px;
+  display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center;
+}
+.badge{
+  display:inline-block; background:var(--soft); color:var(--blue);
+  border-radius:999px; padding:4px 8px; font-size:11px; font-weight:bold;
+}
+h1{margin:3px 0 0; font-size:21px; color:#173b72}
+.status{font-size:13px; color:var(--muted); text-align:right}
+.progress{
+  margin-top:5px; width:160px; height:8px; border-radius:999px;
+  background:#e5eaf2; overflow:hidden;
+}
+.progress > div{height:100%; width:0; background:var(--teal); transition:.25s}
+
+.stage{
+  flex:1 1 auto; min-height:0; position:relative;
+}
+.screen{
+  display:none; height:100%; width:100%;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:18px; padding:18px;
+  overflow:hidden;
+}
+.screen.active{display:flex; flex-direction:column}
+.screen-inner{
+  width:100%; max-width:820px; margin:auto;
+}
+.head{display:flex; gap:12px; align-items:center; margin-bottom:10px}
+.num{
+  width:38px; height:38px; border-radius:50%; flex:0 0 auto;
+  background:var(--blue); color:#fff; display:flex; align-items:center;
+  justify-content:center; font-weight:bold;
+}
+h2{margin:0; font-size:22px}
+.topic{font-size:13px; color:var(--muted)}
+.prompt{
+  margin:12px 0; padding:12px 14px; border-radius:12px;
+  background:var(--soft); font-size:15px;
+}
+.choices{display:grid; gap:8px}
+.choice{
+  padding:9px 11px; border:1px solid var(--border);
+  border-radius:10px; background:#fff; font-size:15px;
+}
+.choice label{cursor:pointer}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.block{font-size:13px; font-weight:bold}
+select,textarea{
+  width:100%; margin-top:5px; padding:9px; border:1px solid var(--border);
+  border-radius:10px; background:#fff; font:inherit;
+}
+.actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+button{
+  border:0; border-radius:10px; padding:9px 13px;
+  font-size:14px; cursor:pointer;
+}
+.primary{background:var(--blue); color:#fff}
+.secondary{background:#fff; border:1px solid var(--border); color:var(--text)}
+.next{display:none; background:var(--teal); color:#fff}
+.feedback,.hint,.code{
+  display:none; margin-top:10px; padding:10px 12px; border-radius:10px;
+  font-size:14px;
+}
+.feedback{background:var(--soft); border:1px solid #cad8ef}
+.hint{background:var(--warning); border:1px solid #ecd79c}
+.code{
+  background:var(--success); border:1px solid #b9dec5;
+  text-align:center;
+}
+.code strong{display:block; color:var(--teal); font-size:20px; margin-top:2px}
+.final-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.success{
+  text-align:center; background:var(--success);
+}
+.success .unlock{font-size:38px}
+.small{font-size:13px;color:var(--muted)}
+@media (max-width:700px){
+  .header{grid-template-columns:1fr}
+  .status{text-align:left}
+  .progress{width:100%}
+  .grid2,.final-grid{grid-template-columns:1fr}
+  h1{font-size:18px}
+  h2{font-size:19px}
+  .screen{padding:13px}
+  .prompt,.choice{font-size:14px}
+}
+</style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero">
+<div class="app">
+  <header class="header">
+    <div>
       <span class="badge">Unidad 5 · Diseño instruccional</span>
       <h1>Escape Room: Operación Rescata el Curso</h1>
-      <p class="sub">Un curso virtual está por ser cerrado: baja participación, actividades poco atractivas y una evaluación que solo mide memoria. Supera tres desafíos, recibe pistas y desbloquea los códigos.</p>
-      <div class="progress-row">
-        <div>
-          <div class="progress"><div id="progressBar"></div></div>
+    </div>
+    <div class="status">
+      <div id="statusText">Reto 1 de 3</div>
+      <div class="progress"><div id="bar"></div></div>
+    </div>
+  </header>
+
+  <main class="stage">
+
+    <section id="s1" class="screen active">
+      <div class="screen-inner">
+        <div class="head">
+          <div class="num">1</div>
+          <div><h2>El diseñador instruccional</h2><div class="topic">Tema 5.1</div></div>
         </div>
-        <div class="progress-count" id="progressText">0 / 3 códigos</div>
+        <div class="prompt">
+          Los estudiantes conocen conceptos sobre innovación educativa, pero tienen dificultad para aplicarlos a situaciones reales. ¿Qué producto educativo responde mejor a esta necesidad?
+        </div>
+        <div class="choices">
+          <div class="choice"><label><input type="radio" name="q1" value="A"> Una presentación de 50 diapositivas.</label></div>
+          <div class="choice"><label><input type="radio" name="q1" value="B"> Un estudio de caso interactivo.</label></div>
+          <div class="choice"><label><input type="radio" name="q1" value="C"> Una lectura teórica de 30 páginas.</label></div>
+          <div class="choice"><label><input type="radio" name="q1" value="D"> Un video expositivo de 45 minutos.</label></div>
+        </div>
+        <div class="actions">
+          <button id="c1" class="primary">Comprobar respuesta</button>
+          <button id="h1" class="secondary">Pista</button>
+          <button id="n1" class="next">Continuar al reto 2 →</button>
+        </div>
+        <div id="f1" class="feedback"></div>
+        <div id="hint1" class="hint">Piensa en un producto que obligue a <strong>aplicar</strong> conocimientos y tomar decisiones.</div>
+        <div id="code1" class="code">Código desbloqueado<strong>APLICAR</strong></div>
       </div>
     </section>
 
-    <section class="codes">
-      <div class="code"><small>Código 1</small><strong id="code1">🔒 Bloqueado</strong></div>
-      <div class="code"><small>Código 2</small><strong id="code2">🔒 Bloqueado</strong></div>
-      <div class="code"><small>Código 3</small><strong id="code3">🔒 Bloqueado</strong></div>
+    <section id="s2" class="screen">
+      <div class="screen-inner">
+        <div class="head">
+          <div class="num">2</div>
+          <div><h2>El laboratorio tecnológico</h2><div class="topic">Tema 5.2</div></div>
+        </div>
+        <div class="prompt">Relaciona cada necesidad con la herramienta más pertinente.</div>
+        <div class="grid2">
+          <label class="block">Organizar contenidos y actividades
+            <select id="t1"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select>
+          </label>
+          <label class="block">Diseñar una infografía
+            <select id="t2"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select>
+          </label>
+          <label class="block">Crear un caso interactivo
+            <select id="t3"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select>
+          </label>
+          <label class="block">Compartir soluciones del grupo
+            <select id="t4"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="c2" class="primary">Comprobar relación</button>
+          <button id="h2" class="secondary">Pista</button>
+          <button id="n2" class="next">Continuar al reto 3 →</button>
+        </div>
+        <div id="f2" class="feedback"></div>
+        <div id="hint2" class="hint">Canvas organiza, Canva diseña, Genially hace interactivo y Padlet facilita compartir.</div>
+        <div id="code2" class="code">Código desbloqueado<strong>ALINEAR</strong></div>
+      </div>
     </section>
 
-    <section id="challenge1" class="panel">
-      <div class="challenge-head"><div class="num">1</div><div><h2>El diseñador instruccional</h2><div class="sub">Tema 5.1</div></div></div>
-      <p>Los estudiantes conocen conceptos sobre innovación educativa, pero tienen dificultad para aplicarlos a situaciones reales. ¿Qué producto educativo responde mejor a esta necesidad?</p>
-      <div class="choices">
-        <div class="choice"><label><input type="radio" name="q1" value="A"> Una presentación de 50 diapositivas.</label></div>
-        <div class="choice"><label><input type="radio" name="q1" value="B"> Un estudio de caso interactivo.</label></div>
-        <div class="choice"><label><input type="radio" name="q1" value="C"> Una lectura teórica de 30 páginas.</label></div>
-        <div class="choice"><label><input type="radio" name="q1" value="D"> Un video expositivo de 45 minutos.</label></div>
+    <section id="s3" class="screen">
+      <div class="screen-inner">
+        <div class="head">
+          <div class="num">3</div>
+          <div><h2>La evaluación perdida</h2><div class="topic">Tema 5.3</div></div>
+        </div>
+        <div class="prompt">
+          <strong>Objetivo:</strong> “El estudiante será capaz de diseñar una propuesta para solucionar una problemática educativa.” ¿Qué evidencia permite evaluar mejor ese aprendizaje?
+        </div>
+        <div class="choices">
+          <div class="choice"><label><input type="radio" name="q3" value="A"> Un examen de conceptos.</label></div>
+          <div class="choice"><label><input type="radio" name="q3" value="B"> Una lista de definiciones.</label></div>
+          <div class="choice"><label><input type="radio" name="q3" value="C"> Una propuesta de intervención educativa.</label></div>
+          <div class="choice"><label><input type="radio" name="q3" value="D"> Un ejercicio de verdadero o falso.</label></div>
+        </div>
+        <div class="actions">
+          <button id="c3" class="primary">Comprobar respuesta</button>
+          <button id="h3" class="secondary">Pista</button>
+          <button id="n3" class="next">Abrir candado final →</button>
+        </div>
+        <div id="f3" class="feedback"></div>
+        <div id="hint3" class="hint">Si el verbo es <strong>diseñar</strong>, la evidencia debe mostrar una producción o solución.</div>
+        <div id="code3" class="code">Código desbloqueado<strong>DEMOSTRAR</strong></div>
       </div>
-      <div class="buttons">
-        <button class="primary" id="check1">Comprobar respuesta</button>
-        <button class="secondary" id="hint1">Solicitar pista</button>
-      </div>
-      <div class="feedback" id="feedback1"></div>
-      <div class="hint" id="hintBox1">Pista: piensa en una actividad donde el estudiante tenga que <strong>tomar decisiones y aplicar conocimientos</strong>, no únicamente recibir información.</div>
     </section>
 
-    <section id="challenge2" class="panel locked">
-      <div class="challenge-head"><div class="num">2</div><div><h2>El laboratorio tecnológico</h2><div class="sub">Tema 5.2</div></div></div>
-      <p>Relaciona cada necesidad con la herramienta más pertinente.</p>
-      <div class="select-grid">
-        <label class="block">Organizar contenidos y actividades
-          <select id="tool1" disabled>
-            <option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option>
-          </select>
-        </label>
-        <label class="block">Diseñar una infografía
-          <select id="tool2" disabled>
-            <option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option>
-          </select>
-        </label>
-        <label class="block">Crear un caso interactivo
-          <select id="tool3" disabled>
-            <option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option>
-          </select>
-        </label>
-        <label class="block">Compartir soluciones del grupo
-          <select id="tool4" disabled>
-            <option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option>
-          </select>
-        </label>
+    <section id="s4" class="screen">
+      <div class="screen-inner">
+        <div class="head">
+          <div class="num">🔐</div>
+          <div><h2>Candado final</h2><div class="topic">Integra los tres códigos</div></div>
+        </div>
+        <div class="prompt">
+          “Un buen diseño instruccional permite ______ los conocimientos, ______ objetivos, actividades y tecnologías, y ______ el aprendizaje mediante evidencias.”
+        </div>
+        <div class="final-grid">
+          <label class="block">Espacio 1
+            <select id="fina"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select>
+          </label>
+          <label class="block">Espacio 2
+            <select id="finb"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select>
+          </label>
+          <label class="block">Espacio 3
+            <select id="finc"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select>
+          </label>
+        </div>
+        <div class="actions"><button id="unlock" class="primary">Desbloquear curso</button></div>
+        <div id="ff" class="feedback"></div>
       </div>
-      <div class="buttons">
-        <button class="primary" id="check2" disabled>Comprobar relación</button>
-        <button class="secondary" id="hint2" disabled>Solicitar pista</button>
-      </div>
-      <div class="feedback" id="feedback2"></div>
-      <div class="hint" id="hintBox2">Pista: Canvas organiza el curso; Canva crea materiales visuales; Genially favorece interactividad; Padlet facilita compartir aportaciones.</div>
     </section>
 
-    <section id="challenge3" class="panel locked">
-      <div class="challenge-head"><div class="num">3</div><div><h2>La evaluación perdida</h2><div class="sub">Tema 5.3</div></div></div>
-      <p><strong>Objetivo:</strong> “El estudiante será capaz de diseñar una propuesta para solucionar una problemática educativa.” ¿Qué evidencia permite evaluar mejor ese aprendizaje?</p>
-      <div class="choices">
-        <div class="choice"><label><input type="radio" name="q3" value="A" disabled> Un examen de conceptos.</label></div>
-        <div class="choice"><label><input type="radio" name="q3" value="B" disabled> Una lista de definiciones.</label></div>
-        <div class="choice"><label><input type="radio" name="q3" value="C" disabled> Una propuesta de intervención educativa.</label></div>
-        <div class="choice"><label><input type="radio" name="q3" value="D" disabled> Un ejercicio de verdadero o falso.</label></div>
+    <section id="s5" class="screen success">
+      <div class="screen-inner">
+        <div class="unlock">🔓</div>
+        <h2>¡Curso rescatado!</h2>
+        <p>Has logrado <strong>APLICAR</strong>, <strong>ALINEAR</strong> y <strong>DEMOSTRAR</strong> el aprendizaje.</p>
+        <p class="small">Reflexiona: ¿qué elemento cambiarías primero en un curso virtual: actividad, tecnología o evaluación? ¿Por qué?</p>
+        <textarea id="reflection" rows="3" placeholder="Escribe tu reflexión..."></textarea>
+        <div class="actions" style="justify-content:center"><button id="restart" class="secondary">Reiniciar</button></div>
       </div>
-      <div class="buttons">
-        <button class="primary" id="check3" disabled>Comprobar respuesta</button>
-        <button class="secondary" id="hint3" disabled>Solicitar pista</button>
-      </div>
-      <div class="feedback" id="feedback3"></div>
-      <div class="hint" id="hintBox3">Pista: si el objetivo usa el verbo <strong>diseñar</strong>, la evidencia debe permitir que el estudiante produzca una solución, no solo recuerde información.</div>
     </section>
 
-    <section id="finalLock" class="panel final-lock">
-      <h2>🔐 Candado final</h2>
-      <p>Completa la frase con las tres claves obtenidas:</p>
-      <div class="sentence">“Un buen diseño instruccional permite ______ los conocimientos, ______ objetivos, actividades y tecnologías, y ______ el aprendizaje mediante evidencias.”</div>
-      <div class="select-grid">
-        <label class="block">Espacio 1
-          <select id="final1"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select>
-        </label>
-        <label class="block">Espacio 2
-          <select id="final2"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select>
-        </label>
-        <label class="block">Espacio 3
-          <select id="final3"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select>
-        </label>
-      </div>
-      <div class="buttons"><button class="primary" id="unlockFinal">Desbloquear curso</button></div>
-      <div class="feedback" id="finalFeedback"></div>
-    </section>
-
-    <section id="success" class="panel success">
-      <div class="icon">🔓</div>
-      <h2>¡Curso rescatado!</h2>
-      <p>Has integrado los tres principios centrales: <strong>APLICAR</strong> el conocimiento, <strong>ALINEAR</strong> objetivos, actividades y tecnología, y <strong>DEMOSTRAR</strong> el aprendizaje mediante evidencias pertinentes.</p>
-      <div class="reflection">
-        <label class="block" for="reflection">Reflexión final</label>
-        <p>Si pudieras modificar solamente un elemento de un curso virtual, ¿cambiarías la actividad, la tecnología o la evaluación? Explica brevemente.</p>
-        <textarea id="reflection" rows="4" placeholder="Escribe tu reflexión..."></textarea>
-      </div>
-      <div class="buttons" style="justify-content:center"><button class="secondary" id="restart">Reiniciar reto</button></div>
-    </section>
-
-    <div class="footer-note">Actividad estimada: 8–10 minutos · Maestría en Educación</div>
   </main>
+</div>
 
-  <script>
-    let solved = [false,false,false];
+<script>
+const $=id=>document.getElementById(id);
 
-    const $ = id => document.getElementById(id);
+function showScreen(n){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  $('s'+n).classList.add('active');
 
-    function show(id, html){
-      const el=$(id);
-      el.innerHTML=html;
-      el.style.display='block';
-    }
-    function updateProgress(){
-      const count=solved.filter(Boolean).length;
-      $('progressText').textContent=count+' / 3 códigos';
-      $('progressBar').style.width=(count/3*100)+'%';
-    }
-    function unlockChallenge2(){
-      $('challenge2').classList.remove('locked');
-      ['tool1','tool2','tool3','tool4','check2','hint2'].forEach(id=>$(id).disabled=false);
-    }
-    function unlockChallenge3(){
-      $('challenge3').classList.remove('locked');
-      document.querySelectorAll('input[name="q3"]').forEach(el=>el.disabled=false);
-      $('check3').disabled=false;
-      $('hint3').disabled=false;
-    }
+  if(n===1){$('statusText').textContent='Reto 1 de 3';$('bar').style.width='0%';}
+  if(n===2){$('statusText').textContent='Reto 2 de 3';$('bar').style.width='33%';}
+  if(n===3){$('statusText').textContent='Reto 3 de 3';$('bar').style.width='66%';}
+  if(n===4){$('statusText').textContent='Candado final';$('bar').style.width='100%';}
+  if(n===5){$('statusText').textContent='Misión completada';$('bar').style.width='100%';}
+}
 
-    $('hint1').addEventListener('click',()=>{$('hintBox1').style.display=$('hintBox1').style.display==='block'?'none':'block';});
-    $('hint2').addEventListener('click',()=>{$('hintBox2').style.display=$('hintBox2').style.display==='block'?'none':'block';});
-    $('hint3').addEventListener('click',()=>{$('hintBox3').style.display=$('hintBox3').style.display==='block'?'none':'block';});
+function toggle(id){
+  const e=$(id); e.style.display=e.style.display==='block'?'none':'block';
+}
+function feedback(id,msg){
+  $(id).innerHTML=msg; $(id).style.display='block';
+}
 
-    $('check1').addEventListener('click',()=>{
-      const selected=document.querySelector('input[name="q1"]:checked');
-      if(!selected){show('feedback1','Selecciona una opción antes de comprobar.');return;}
-      if(selected.value==='B'){
-        solved[0]=true;
-        $('code1').textContent='🔓 APLICAR';
-        show('feedback1','<strong>Correcto.</strong> El estudio de caso exige aplicar conocimientos a una situación concreta. Código desbloqueado: <strong>APLICAR</strong>.');
-        unlockChallenge2();
-        $('check1').disabled=true;
-        updateProgress();
-      }else{
-        show('feedback1','<strong>Aún no.</strong> Esa opción transmite información, pero no exige aplicar los conocimientos. Usa la pista e inténtalo nuevamente.');
-      }
-    });
+$('h1').onclick=()=>toggle('hint1');
+$('h2').onclick=()=>toggle('hint2');
+$('h3').onclick=()=>toggle('hint3');
 
-    $('check2').addEventListener('click',()=>{
-      const a=[$('tool1').value,$('tool2').value,$('tool3').value,$('tool4').value];
-      if(a.some(v=>!v)){show('feedback2','Completa las cuatro relaciones antes de comprobar.');return;}
-      const ok=a[0]==='Canvas' && a[1]==='Canva' && a[2]==='Genially' && a[3]==='Padlet';
-      if(ok){
-        solved[1]=true;
-        $('code2').textContent='🔓 ALINEAR';
-        show('feedback2','<strong>Correcto.</strong> La herramienta debe seleccionarse según su función pedagógica. Código desbloqueado: <strong>ALINEAR</strong>.');
-        unlockChallenge3();
-        $('check2').disabled=true;
-        updateProgress();
-      }else{
-        show('feedback2','<strong>Revisa la relación.</strong> Cada herramienta cumple una función diferente dentro de la experiencia de aprendizaje.');
-      }
-    });
+$('c1').onclick=()=>{
+  const a=document.querySelector('input[name="q1"]:checked');
+  if(!a){feedback('f1','Selecciona una respuesta.');return;}
+  if(a.value==='B'){
+    feedback('f1','<strong>Correcto.</strong> Has desbloqueado el código.');
+    $('code1').style.display='block'; $('n1').style.display='inline-block'; $('c1').disabled=true;
+  }else feedback('f1','Aún no. Usa la pista e inténtalo otra vez.');
+};
+$('n1').onclick=()=>showScreen(2);
 
-    $('check3').addEventListener('click',()=>{
-      const selected=document.querySelector('input[name="q3"]:checked');
-      if(!selected){show('feedback3','Selecciona una evidencia antes de comprobar.');return;}
-      if(selected.value==='C'){
-        solved[2]=true;
-        $('code3').textContent='🔓 DEMOSTRAR';
-        show('feedback3','<strong>Correcto.</strong> Una propuesta de intervención demuestra un desempeño alineado con el verbo “diseñar”. Código desbloqueado: <strong>DEMOSTRAR</strong>.');
-        $('check3').disabled=true;
-        $('finalLock').style.display='block';
-        updateProgress();
-        $('finalLock').scrollIntoView({behavior:'smooth',block:'start'});
-      }else{
-        show('feedback3','<strong>Aún no.</strong> La evidencia debe demostrar que el estudiante puede producir una solución, no solamente recordar información.');
-      }
-    });
+$('c2').onclick=()=>{
+  const v=[$('t1').value,$('t2').value,$('t3').value,$('t4').value];
+  if(v.some(x=>!x)){feedback('f2','Completa las cuatro relaciones.');return;}
+  const ok=v[0]==='Canvas'&&v[1]==='Canva'&&v[2]==='Genially'&&v[3]==='Padlet';
+  if(ok){
+    feedback('f2','<strong>Correcto.</strong> Has desbloqueado el código.');
+    $('code2').style.display='block'; $('n2').style.display='inline-block'; $('c2').disabled=true;
+  }else feedback('f2','Alguna relación no es correcta. Revisa la pista.');
+};
+$('n2').onclick=()=>showScreen(3);
 
-    $('unlockFinal').addEventListener('click',()=>{
-      const ok=$('final1').value==='APLICAR' && $('final2').value==='ALINEAR' && $('final3').value==='DEMOSTRAR';
-      if(ok){
-        show('finalFeedback','<strong>Candado abierto.</strong> La secuencia es correcta.');
-        $('success').style.display='block';
-        $('success').scrollIntoView({behavior:'smooth',block:'start'});
-      }else{
-        show('finalFeedback','El orden todavía no abre el candado. Lee nuevamente la frase y relaciona cada verbo con la acción correspondiente.');
-      }
-    });
+$('c3').onclick=()=>{
+  const a=document.querySelector('input[name="q3"]:checked');
+  if(!a){feedback('f3','Selecciona una respuesta.');return;}
+  if(a.value==='C'){
+    feedback('f3','<strong>Correcto.</strong> Has desbloqueado el código.');
+    $('code3').style.display='block'; $('n3').style.display='inline-block'; $('c3').disabled=true;
+  }else feedback('f3','Aún no. Piensa en una evidencia que permita producir una solución.');
+};
+$('n3').onclick=()=>showScreen(4);
 
-    $('restart').addEventListener('click',()=>{
-      solved=[false,false,false];
-      document.querySelectorAll('input[type="radio"]').forEach(el=>el.checked=false);
-      document.querySelectorAll('select').forEach(el=>el.value='');
-      $('reflection').value='';
-      ['feedback1','feedback2','feedback3','hintBox1','hintBox2','hintBox3','finalFeedback'].forEach(id=>$(id).style.display='none');
-      $('finalLock').style.display='none';
-      $('success').style.display='none';
-      $('code1').textContent='🔒 Bloqueado';
-      $('code2').textContent='🔒 Bloqueado';
-      $('code3').textContent='🔒 Bloqueado';
-      $('check1').disabled=false;
-      $('challenge2').classList.add('locked');
-      $('challenge3').classList.add('locked');
-      ['tool1','tool2','tool3','tool4','check2','hint2','check3','hint3'].forEach(id=>$(id).disabled=true);
-      document.querySelectorAll('input[name="q3"]').forEach(el=>el.disabled=true);
-      updateProgress();
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
-  </script>
+$('unlock').onclick=()=>{
+  const ok=$('fina').value==='APLICAR'&&$('finb').value==='ALINEAR'&&$('finc').value==='DEMOSTRAR';
+  if(ok){feedback('ff','<strong>Candado abierto.</strong>');setTimeout(()=>showScreen(5),500);}
+  else feedback('ff','El orden todavía no es correcto.');
+};
+
+$('restart').onclick=()=>{
+  document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);
+  document.querySelectorAll('select').forEach(x=>x.value='');
+  ['f1','f2','f3','ff','hint1','hint2','hint3','code1','code2','code3'].forEach(id=>$(id).style.display='none');
+  ['n1','n2','n3'].forEach(id=>$(id).style.display='none');
+  ['c1','c2','c3'].forEach(id=>$(id).disabled=false);
+  $('reflection').value='';
+  showScreen(1);
+};
+</script>
 </body>
 </html>
