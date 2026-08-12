@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape Room: Operación Rescata el Curso</title>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--text:#1f2937;--muted:#667085;--border:#d7deea;--accent:#1f4f99;--accent2:#0f766e;--soft:#eef4ff;--success:#eaf8ef;--warning:#fff7e6}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}body{min-height:100vh}
+.app{max-width:900px;margin:0 auto;padding:18px}
+.topbar{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:18px;padding:14px 16px;margin-bottom:14px}
+.eyebrow{display:inline-block;background:var(--soft);color:var(--accent);font-size:12px;font-weight:bold;border-radius:999px;padding:5px 9px;margin-bottom:4px}
+h1{font-size:24px;margin:0 0 3px;color:#173b72}.sub{margin:0;color:var(--muted);font-size:14px}
+.progressWrap{min-width:160px}.progressLabel{font-size:13px;color:var(--muted);text-align:right;margin-bottom:5px}.progress{height:10px;background:#e7ecf4;border-radius:999px;overflow:hidden}.progress>div{height:100%;width:0;background:var(--accent2);transition:.3s}
+.screen{display:none}.screen.active{display:block}.panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px}
+.challengeHead{display:flex;gap:12px;align-items:center;margin-bottom:12px}.num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-weight:bold;flex:0 0 auto}
+h2{font-size:21px;margin:0}.topic{font-size:13px;color:var(--muted)}.prompt{background:var(--soft);border-radius:14px;padding:14px;margin:12px 0 14px}
+.choices{display:grid;gap:9px;margin:12px 0}.choice{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:#fff}.choice label{cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}label.block{display:block;font-size:14px;font-weight:bold}
+select,textarea{width:100%;margin-top:5px;border:1px solid var(--border);border-radius:10px;padding:10px;font:inherit;background:#fff}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{border:none;border-radius:12px;padding:10px 15px;font-size:15px;cursor:pointer}
+button.primary{background:var(--accent);color:#fff}button.secondary{background:#fff;border:1px solid var(--border);color:var(--text)}button.continue{background:var(--accent2);color:#fff;display:none}button:disabled{opacity:.45;cursor:not-allowed}
+.feedback,.hint{display:none;margin-top:12px;border-radius:12px;padding:12px}.feedback{background:var(--soft);border:1px solid #cbd9f3}.hint{background:var(--warning);border:1px solid #f0d99a}
+.codeReveal{display:none;margin-top:14px;text-align:center;padding:14px;border-radius:14px;background:var(--success);border:1px solid #b8dfc6}.codeReveal strong{display:block;font-size:22px;color:var(--accent2);margin-top:3px}
+.finalSentence{background:var(--soft);border-radius:14px;padding:14px;margin:12px 0}.success{text-align:center;background:var(--success);border:1px solid #b8dfc6}.success .icon{font-size:42px}.reflection{text-align:left;margin-top:16px}
+.miniCodes{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.chip{border:1px solid var(--border);border-radius:999px;padding:5px 9px;font-size:12px;background:#fff;color:var(--muted)}.chip.unlocked{background:var(--success);color:var(--accent2);border-color:#b8dfc6;font-weight:bold}
+@media (max-width:700px){.app{padding:10px}.topbar{grid-template-columns:1fr}.progressLabel{text-align:left}.grid2{grid-template-columns:1fr}h1{font-size:21px}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="topbar">
+<div>
+<div class="eyebrow">Unidad 5 · Diseño instruccional</div>
+<h1>Operación: Rescata el Curso</h1>
+<p class="sub">Supera cada misión para desbloquear el siguiente reto.</p>
+<div class="miniCodes"><span id="chip1" class="chip">Código 1 🔒</span><span id="chip2" class="chip">Código 2 🔒</span><span id="chip3" class="chip">Código 3 🔒</span></div>
+</div>
+<div class="progressWrap"><div id="progressLabel" class="progressLabel">Misión 1 de 3</div><div class="progress"><div id="progressBar"></div></div></div>
+</header>
+
+<section id="screen1" class="screen active"><div class="panel">
+<div class="challengeHead"><div class="num">1</div><div><h2>El diseñador instruccional</h2><div class="topic">Tema 5.1 · Aplicación del diseño instruccional</div></div></div>
+<div class="prompt">Los estudiantes conocen conceptos sobre innovación educativa, pero tienen dificultad para aplicarlos a situaciones reales. ¿Qué producto educativo responde mejor a esta necesidad?</div>
+<div class="choices">
+<div class="choice"><label><input type="radio" name="q1" value="A"> Una presentación de 50 diapositivas.</label></div>
+<div class="choice"><label><input type="radio" name="q1" value="B"> Un estudio de caso interactivo.</label></div>
+<div class="choice"><label><input type="radio" name="q1" value="C"> Una lectura teórica de 30 páginas.</label></div>
+<div class="choice"><label><input type="radio" name="q1" value="D"> Un video expositivo de 45 minutos.</label></div>
+</div>
+<div class="buttons"><button id="check1" class="primary" type="button">Comprobar respuesta</button><button id="hint1" class="secondary" type="button">Solicitar pista</button><button id="next1" class="continue" type="button">Ir al reto 2 →</button></div>
+<div id="feedback1" class="feedback"></div><div id="hintBox1" class="hint">Pista: elige una actividad donde el estudiante tenga que <strong>tomar decisiones y aplicar conocimientos</strong>, no únicamente recibir información.</div><div id="codeReveal1" class="codeReveal">Código desbloqueado<strong>APLICAR</strong></div>
+</div></section>
+
+<section id="screen2" class="screen"><div class="panel">
+<div class="challengeHead"><div class="num">2</div><div><h2>El laboratorio tecnológico</h2><div class="topic">Tema 5.2 · Herramientas, recursos y plataformas</div></div></div>
+<div class="prompt">Selecciona la herramienta más adecuada para cada necesidad.</div>
+<div class="grid2">
+<label class="block">Organizar contenidos y actividades<select id="tool1"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select></label>
+<label class="block">Diseñar una infografía<select id="tool2"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select></label>
+<label class="block">Crear un caso interactivo<select id="tool3"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select></label>
+<label class="block">Compartir soluciones del grupo<select id="tool4"><option value="">Selecciona...</option><option>Canvas</option><option>Canva</option><option>Genially</option><option>Padlet</option></select></label>
+</div>
+<div class="buttons"><button id="check2" class="primary" type="button">Comprobar relación</button><button id="hint2" class="secondary" type="button">Solicitar pista</button><button id="next2" class="continue" type="button">Ir al reto 3 →</button></div>
+<div id="feedback2" class="feedback"></div><div id="hintBox2" class="hint">Pista: Canvas organiza el curso; Canva crea recursos visuales; Genially favorece interactividad; Padlet permite compartir aportaciones.</div><div id="codeReveal2" class="codeReveal">Código desbloqueado<strong>ALINEAR</strong></div>
+</div></section>
+
+<section id="screen3" class="screen"><div class="panel">
+<div class="challengeHead"><div class="num">3</div><div><h2>La evaluación perdida</h2><div class="topic">Tema 5.3 · Evaluación en entornos virtuales</div></div></div>
+<div class="prompt"><strong>Objetivo:</strong> “El estudiante será capaz de diseñar una propuesta para solucionar una problemática educativa.” ¿Qué evidencia permite evaluar mejor ese aprendizaje?</div>
+<div class="choices">
+<div class="choice"><label><input type="radio" name="q3" value="A"> Un examen de conceptos.</label></div>
+<div class="choice"><label><input type="radio" name="q3" value="B"> Una lista de definiciones.</label></div>
+<div class="choice"><label><input type="radio" name="q3" value="C"> Una propuesta de intervención educativa.</label></div>
+<div class="choice"><label><input type="radio" name="q3" value="D"> Un ejercicio de verdadero o falso.</label></div>
+</div>
+<div class="buttons"><button id="check3" class="primary" type="button">Comprobar respuesta</button><button id="hint3" class="secondary" type="button">Solicitar pista</button><button id="next3" class="continue" type="button">Abrir candado final →</button></div>
+<div id="feedback3" class="feedback"></div><div id="hintBox3" class="hint">Pista: si el objetivo usa el verbo <strong>diseñar</strong>, la evidencia debe permitir crear una solución, no solo recordar información.</div><div id="codeReveal3" class="codeReveal">Código desbloqueado<strong>DEMOSTRAR</strong></div>
+</div></section>
+
+<section id="screen4" class="screen"><div class="panel">
+<div class="challengeHead"><div class="num">🔐</div><div><h2>Candado final</h2><div class="topic">Integra los tres códigos obtenidos</div></div></div>
+<div class="finalSentence">“Un buen diseño instruccional permite ______ los conocimientos, ______ objetivos, actividades y tecnologías, y ______ el aprendizaje mediante evidencias.”</div>
+<div class="grid2">
+<label class="block">Espacio 1<select id="final1"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select></label>
+<label class="block">Espacio 2<select id="final2"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select></label>
+<label class="block">Espacio 3<select id="final3"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select></label>
+</div>
+<div class="buttons"><button id="unlockFinal" class="primary" type="button">Desbloquear curso</button></div><div id="finalFeedback" class="feedback"></div>
+</div></section>
+
+<section id="screen5" class="screen"><div class="panel success">
+<div class="icon">🔓</div><h2>¡Curso rescatado!</h2>
+<p>Has integrado los tres principios clave: <strong>APLICAR</strong> el conocimiento, <strong>ALINEAR</strong> objetivos, actividades y tecnología, y <strong>DEMOSTRAR</strong> el aprendizaje mediante evidencias pertinentes.</p>
+<div class="reflection"><label class="block" for="reflection">Reflexión final</label><p>Si pudieras modificar solamente un elemento de un curso virtual, ¿cambiarías la actividad, la tecnología o la evaluación? ¿Por qué?</p><textarea id="reflection" rows="3" placeholder="Escribe tu reflexión..."></textarea></div>
+<div class="buttons" style="justify-content:center"><button id="restart" class="secondary" type="button">Reiniciar reto</button></div>
+</div></section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+
+function showScreen(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $('screen'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===1){$('progressLabel').textContent='Misión 1 de 3';$('progressBar').style.width='0%';}
+  else if(n===2){$('progressLabel').textContent='Misión 2 de 3';$('progressBar').style.width='33%';}
+  else if(n===3){$('progressLabel').textContent='Misión 3 de 3';$('progressBar').style.width='66%';}
+  else if(n===4){$('progressLabel').textContent='Candado final';$('progressBar').style.width='100%';}
+  else{$('progressLabel').textContent='Misión completada';$('progressBar').style.width='100%';}
+}
+function showBox(id,html){const el=$(id);el.innerHTML=html;el.style.display='block';}
+function toggle(id){const el=$(id);el.style.display=el.style.display==='block'?'none':'block';}
+
+$('hint1').addEventListener('click',()=>toggle('hintBox1'));
+$('hint2').addEventListener('click',()=>toggle('hintBox2'));
+$('hint3').addEventListener('click',()=>toggle('hintBox3'));
+
+$('check1').addEventListener('click',()=>{
+  const s=document.querySelector('input[name="q1"]:checked');
+  if(!s){showBox('feedback1','Selecciona una opción antes de comprobar.');return;}
+  if(s.value==='B'){
+    showBox('feedback1','<strong>Correcto.</strong> El estudio de caso permite aplicar conocimientos a una situación concreta.');
+    $('codeReveal1').style.display='block';$('chip1').textContent='Código 1 ✓ APLICAR';$('chip1').classList.add('unlocked');$('next1').style.display='inline-block';$('check1').disabled=true;
+  }else showBox('feedback1','<strong>Aún no.</strong> Esa opción transmite información, pero no exige aplicar los conocimientos.');
+});
+$('next1').addEventListener('click',()=>showScreen(2));
+
+$('check2').addEventListener('click',()=>{
+  const a=[$('tool1').value,$('tool2').value,$('tool3').value,$('tool4').value];
+  if(a.some(v=>!v)){showBox('feedback2','Completa las cuatro relaciones antes de comprobar.');return;}
+  const ok=a[0]==='Canvas'&&a[1]==='Canva'&&a[2]==='Genially'&&a[3]==='Padlet';
+  if(ok){
+    showBox('feedback2','<strong>Correcto.</strong> Cada herramienta está alineada con una función pedagógica concreta.');
+    $('codeReveal2').style.display='block';$('chip2').textContent='Código 2 ✓ ALINEAR';$('chip2').classList.add('unlocked');$('next2').style.display='inline-block';$('check2').disabled=true;
+  }else showBox('feedback2','<strong>Revisa la relación.</strong> Piensa en la función principal de cada herramienta.');
+});
+$('next2').addEventListener('click',()=>showScreen(3));
+
+$('check3').addEventListener('click',()=>{
+  const s=document.querySelector('input[name="q3"]:checked');
+  if(!s){showBox('feedback3','Selecciona una evidencia antes de comprobar.');return;}
+  if(s.value==='C'){
+    showBox('feedback3','<strong>Correcto.</strong> Una propuesta de intervención demuestra un desempeño alineado con el verbo “diseñar”.');
+    $('codeReveal3').style.display='block';$('chip3').textContent='Código 3 ✓ DEMOSTRAR';$('chip3').classList.add('unlocked');$('next3').style.display='inline-block';$('check3').disabled=true;
+  }else showBox('feedback3','<strong>Aún no.</strong> La evidencia debe demostrar que el estudiante puede producir una solución.');
+});
+$('next3').addEventListener('click',()=>showScreen(4));
+
+$('unlockFinal').addEventListener('click',()=>{
+  const ok=$('final1').value==='APLICAR'&&$('final2').value==='ALINEAR'&&$('final3').value==='DEMOSTRAR';
+  if(ok){showBox('finalFeedback','<strong>Candado abierto.</strong> La secuencia es correcta.');setTimeout(()=>showScreen(5),700);}
+  else showBox('finalFeedback','El orden todavía no abre el candado. Relaciona cada verbo con la acción que describe.');
+});
+
+$('restart').addEventListener('click',()=>{
+  document.querySelectorAll('input[type="radio"]').forEach(el=>el.checked=false);
+  document.querySelectorAll('select').forEach(el=>el.value='');
+  $('reflection').value='';
+  ['feedback1','feedback2','feedback3','finalFeedback','hintBox1','hintBox2','hintBox3','codeReveal1','codeReveal2','codeReveal3'].forEach(id=>{$(id).style.display='none';});
+  ['next1','next2','next3'].forEach(id=>$(id).style.display='none');
+  ['check1','check2','check3'].forEach(id=>$(id).disabled=false);
+  $('chip1').textContent='Código 1 🔒';$('chip2').textContent='Código 2 🔒';$('chip3').textContent='Código 3 🔒';
+  ['chip1','chip2','chip3'].forEach(id=>$(id).classList.remove('unlocked'));
+  showScreen(1);
+});
+</script>
+</body>
+</html>

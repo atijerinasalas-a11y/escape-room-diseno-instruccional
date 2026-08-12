@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Candado final</title>
+
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--text:#1f2937;--muted:#667085;--border:#d7deea;--blue:#214f93;--teal:#0f766e;--soft:#eef4ff;--success:#eaf8ef;--warning:#fff6dd}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+body{display:flex}
+.app{width:100%;height:100vh;padding:14px;display:flex;flex-direction:column;gap:10px}
+.header{background:#fff;border:1px solid var(--border);border-radius:16px;padding:11px 14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;flex:0 0 auto}
+.badge{display:inline-block;background:var(--soft);color:var(--blue);border-radius:999px;padding:4px 8px;font-size:11px;font-weight:bold}
+h1{margin:4px 0 0;font-size:21px;color:#173b72}
+.status{font-size:13px;color:var(--muted);text-align:right}
+.progress{margin-top:5px;width:170px;height:8px;border-radius:999px;background:#e5eaf2;overflow:hidden}
+.progress div{height:100%;background:var(--teal)}
+.stage{flex:1;min-height:0;background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.inner{width:100%;max-width:820px}
+.head{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.num{width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex:0 0 auto}
+h2{margin:0;font-size:22px}.topic{font-size:13px;color:var(--muted)}
+.prompt{margin:12px 0;padding:12px 14px;border-radius:12px;background:var(--soft);font-size:15px}
+.choices{display:grid;gap:8px}.choice{padding:9px 11px;border:1px solid var(--border);border-radius:10px;background:#fff;font-size:15px}
+.choice label{cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.block{font-size:13px;font-weight:bold}
+select,textarea{width:100%;margin-top:5px;padding:9px;border:1px solid var(--border);border-radius:10px;background:#fff;font:inherit}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button{border:0;border-radius:10px;padding:9px 13px;font-size:14px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.secondary{background:#fff;border:1px solid var(--border);color:var(--text)}.next{display:none;background:var(--teal);color:#fff}
+.feedback,.hint,.code{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;font-size:14px}
+.feedback{background:var(--soft);border:1px solid #cad8ef}.hint{background:var(--warning);border:1px solid #ecd79c}.code{background:var(--success);border:1px solid #b9dec5;text-align:center}
+.code strong{display:block;color:var(--teal);font-size:20px;margin-top:2px}.success{text-align:center}.unlock{font-size:40px}
+.final-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:700px){.header{grid-template-columns:1fr}.status{text-align:left}.progress{width:100%}.grid2,.final-grid{grid-template-columns:1fr}h1{font-size:18px}h2{font-size:19px}.stage{padding:14px}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="header">
+<div><span class="badge">Unidad 5 · Diseño instruccional</span><h1>Escape Room: Operación Rescata el Curso</h1></div>
+<div class="status"><div>Candado final</div><div class="progress"><div style="width:100%"></div></div></div>
+</header>
+<main class="stage"><div class="inner">
+<div class="head"><div class="num">🔐</div><div><h2>Candado final</h2><div class="topic">Integra los tres códigos</div></div></div>
+<div class="prompt">“Un buen diseño instruccional permite ______ los conocimientos, ______ objetivos, actividades y tecnologías, y ______ el aprendizaje mediante evidencias.”</div>
+<div class="final-grid">
+<label class="block">Espacio 1<select id="a"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select></label>
+<label class="block">Espacio 2<select id="b"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select></label>
+<label class="block">Espacio 3<select id="c"><option value="">Selecciona...</option><option>APLICAR</option><option>ALINEAR</option><option>DEMOSTRAR</option></select></label>
+</div>
+<div class="actions"><button id="unlock" class="primary">Desbloquear curso</button></div><div id="feedback" class="feedback"></div>
+</div></main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+$('unlock').onclick=()=>{const ok=$('a').value==='APLICAR'&&$('b').value==='ALINEAR'&&$('c').value==='DEMOSTRAR';$('feedback').style.display='block';if(ok){$('feedback').innerHTML='<strong>Candado abierto.</strong>';setTimeout(()=>location.href='exito.html',500);}else{$('feedback').textContent='El orden todavía no es correcto.';}};
+</script>
+</body>
+</html>
